@@ -1,4 +1,4 @@
-#! /bin/sh
+#!/bin/bash
 
 # Use WEBDAV_USERNAME or WEBDAV_PASSWORD as default, if provided
 if [ -z "$PLUGIN_USERNAME" ] && [ ! -z "$WEBDAV_USERNAME" ]; then
@@ -13,4 +13,21 @@ if [ ! -z "$PLUGIN_USERNAME" ] && [ ! -z "$PLUGIN_PASSWORD" ]; then
     AUTH="-u ${PLUGIN_USERNAME}:${PLUGIN_PASSWORD}"
 fi
 
-curl -T $PLUGIN_FILE $AUTH $PLUGIN_DESTINATION
+
+find $PLUGIN_FILE > target_file
+sum_num=`cat target_file |wc -l`
+
+curl -X DELETE $AUTH $PLUGIN_DESTINATION -f
+
+for((i=1;i<sum_num;i++))
+do
+        upload_file=`sed -n "$i"p target_file`
+        if [ -f $upload_file ];then
+                echo uploading $upload_file
+                curl $AUTH -T $upload_file $PLUGIN_DESTINATION$upload_file -f
+        else
+                # create file in remote
+                echo create dir $upload_file
+                curl $AUTH -X MKCOL $PLUGIN_DESTINATION$upload_file -f
+        fi
+done
