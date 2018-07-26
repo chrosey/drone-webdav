@@ -29,7 +29,7 @@ do
         else
                 # create file in remote
                 dirs=${upload_file//// }
-                BASE=$PLUGIN_DESTINATIO
+                BASE=$PLUGIN_DESTINATION
                 for dir in ${dirs[@]}
                 do
                     BASE=$BASE/$dir
