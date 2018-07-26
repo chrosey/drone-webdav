@@ -18,6 +18,7 @@ find $PLUGIN_FILE > target_file
 sum_num=`cat target_file |wc -l`
 
 curl -X DELETE $AUTH $PLUGIN_DESTINATION -f
+curl -X MKCOL $AUTH $PLUGIN_DESTINATION -f
 
 for((i=1;i<sum_num;i++))
 do
