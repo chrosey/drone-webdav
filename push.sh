@@ -17,18 +17,18 @@ fi
 find $PLUGIN_FILE > target_file
 sum_num=`cat target_file |wc -l`
 
-curl -X DELETE $AUTH $PLUGIN_DESTINATION -f
-curl -X MKCOL $AUTH $PLUGIN_DESTINATION -f
+curl -s -X DELETE $AUTH $PLUGIN_DESTINATION -f
+curl -s -X MKCOL $AUTH $PLUGIN_DESTINATION -f
 
 for((i=1;i<sum_num;i++))
 do
         upload_file=`sed -n "$i"p target_file`
         if [ -f $upload_file ];then
-                echo uploading $upload_file
-                curl $AUTH -T $upload_file $PLUGIN_DESTINATION$upload_file -f
+                echo uploading $upload_file to $PLUGIN_DESTINATION$upload_file
+                curl -s $AUTH -T $upload_file $PLUGIN_DESTINATION$upload_file -f
         else
                 # create file in remote
-                echo create dir $upload_file
-                curl $AUTH -X MKCOL $PLUGIN_DESTINATION$upload_file -f
+                echo create dir $PLUGIN_DESTINATION$upload_file
+                curl -s $AUTH -X MKCOL $PLUGIN_DESTINATION$upload_file -f
         fi
 done
