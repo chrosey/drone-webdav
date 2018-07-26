@@ -28,7 +28,13 @@ do
                 curl -s $AUTH -T $upload_file $PLUGIN_DESTINATION$upload_file -f
         else
                 # create file in remote
-                echo create dir $PLUGIN_DESTINATION$upload_file
-                curl -s $AUTH -X MKCOL $PLUGIN_DESTINATION$upload_file -f
+                dirs=${upload_file//// }
+                BASE=$PLUGIN_DESTINATIO
+                for dir in ${dirs[@]}
+                do
+                    BASE=$BASE/$dir
+                    echo create dir $BASE
+                    curl -s $AUTH -X MKCOL $BASE
+                done
         fi
 done
