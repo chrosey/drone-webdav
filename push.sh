@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 # Use WEBDAV_USERNAME or WEBDAV_PASSWORD as default, if provided
 if [ -z "$PLUGIN_USERNAME" ] && [ ! -z "$WEBDAV_USERNAME" ]; then
